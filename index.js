@@ -42,7 +42,6 @@ app.post("/getnotes", async (req, res) => {
     else{
         res.status(200).json({success: true,user: {email: user.email}, message: "User found"});
     }
-    res.sendFile("pages/signup.html", { root: __dirname });
   });
 
   app.post("/signup", async (req, res) => {
@@ -58,11 +57,17 @@ app.post("/getnotes", async (req, res) => {
     res.status(200).json({success:true, note});
   });
 
-  app.post("/deletenote", (req, res) => {
-    const {userToken} = req.body
-    res.sendFile("pages/signup.html", { root: __dirname });
+  app.post("/deletenote", async (req, res) => {
+    const { noteId } = req.body;
+  
+    try {
+      await Note.deleteOne({ _id: noteId });
+      res.status(200).json({ success: true, message: "Note deleted successfully" });
+    } catch (err) {
+      res.status(500).json({ success: false, message: "Failed to delete note", error: err.message });
+    }
   });
 
 app.listen(port, () => {
-  console.log(`Example app listening on port http://localhost:${port}`);
+  console.log(`Server is running at http://localhost:${port}`);
 });
