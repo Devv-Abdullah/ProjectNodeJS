@@ -4,7 +4,7 @@ const Note = require("./models/Note");
 const User = require("./models/User");
 const app = express();
 app.use(express.json({extended: true}));
-app.use(express.urlencoded());
+app.use(express.urlencoded({ extended: true }));
 const port = 3000;
 
 mongoose.connect("mongodb+srv://dev-abdullah:Mm55065546@cluster0.nvhbn.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
